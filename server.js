@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const { User } = require('./models');
 
 const app = express();
-const PORT = 8000;
 const SECRET_KEY = 'your-secret-key';
 
 app.use(express.json()); // Middleware to parse JSON requests
@@ -76,4 +75,8 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 8000; // Use Render's provided port or default to 8000
+app.listen(PORT, () => {
+    console.log(`Server running on ${process.env.RENDER_EXTERNAL_URL || `http://localhost:${PORT}`}`);
+});
+
