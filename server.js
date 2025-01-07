@@ -47,7 +47,7 @@ app.post('/register', async (req, res) => {
   
     try {
       // Check if the username already exists
-      const existingUser = await User.findOne({ where: { username } });
+      const existingUser = await User.findOne({ where: { username } }); 
       if (existingUser) {
         return res.status(400).json({ error: 'Username already taken' });
       }
@@ -69,6 +69,10 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Something went wrong' });
   }
+});
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the Money Transfer Backend API!');
 });
 
 // Start the server
