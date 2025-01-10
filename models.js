@@ -1,12 +1,44 @@
- 
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('sqlite:./database.sqlite');
 
+// Database Setup
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'database.sqlite',
+});
+
+// User Model
 const User = sequelize.define('User', {
-  username: {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
+    validate: {
+      isEmail: true,
+    },
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [10, 10],
+      isNumeric: true,
+    },
+  },
+  nic: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate: {
+      len: [12, 12],
+      isNumeric: true,
+    },
+  },
+  paymentAccount: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
   password: {
     type: DataTypes.STRING,
@@ -14,8 +46,4 @@ const User = sequelize.define('User', {
   },
 });
 
-sequelize.sync()
-  .then(() => console.log('Database synced'))
-  .catch((error) => console.error('Error syncing database:', error));
-
-module.exports = { User, sequelize };
+module.exports = { sequelize, User };
